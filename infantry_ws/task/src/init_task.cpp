@@ -1,4 +1,5 @@
 #include "init_task.hpp"
+#include "stm32f4xx_hal_gpio.h"
 
 void Init_Task() {
   taskENTER_CRITICAL();

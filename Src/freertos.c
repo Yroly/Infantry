@@ -65,6 +65,8 @@ const osThreadAttr_t Init_Task_attributes = {
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
+void Init_Task();
+
 /* USER CODE END FunctionPrototypes */
 
 void StartINSTask(void *argument);
@@ -149,6 +151,7 @@ void StartInit_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
+    Init_Task();
     osDelay(1);
   }
   /* USER CODE END StartInit_Task */
