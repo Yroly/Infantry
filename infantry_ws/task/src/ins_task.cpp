@@ -11,16 +11,15 @@
  ******************************************************************************
  */
 #include "ins_task.hpp"
-#include "controller.h"
-#include "QuaternionEKF.h"
-#include "bsp_PWM.h"
-#include "IMU.h"
-#include "WatchDog.h"
+#include "controller.hpp"
+#include "QuaternionEKF.hpp"
+#include "bsp_PWM.hpp"
 #include "spi.h"
+IMU_t IMU;
 INS_t INS;
 IMU_Param_t IMU_Param;
 PID_t TempCtrl = {0};
-extern WatchDog_TypeDef IMU_Dog;
+// extern WatchDog_TypeDef IMU_Dog;
 void IMU_Rx();
 const float xb[3] = {1, 0, 0};
 const float yb[3] = {0, 1, 0};
@@ -113,7 +112,7 @@ void INS_Task(void)
         INS.Roll = QEKF_INS.Roll;
         INS.YawTotalAngle = QEKF_INS.YawTotalAngle;
 				IMU_Rx();
-				Feed_Dog(&IMU_Dog);
+				// Feed_Dog(&IMU_Dog);
     }
 
     // temperature control

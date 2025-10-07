@@ -21,7 +21,6 @@
 #include "cmsis_os.h"
 #include "can.h"
 #include "dma.h"
-#include "init_task.hpp"
 #include "rng.h"
 #include "spi.h"
 #include "tim.h"

@@ -38,7 +38,7 @@ typedef struct
     float Yaw;
     float YawTotalAngle;
 } INS_t;
-
+extern INS_t INS;
 
 /**
  * @brief 用于修正安装误差的参数,demo中可无视
@@ -55,7 +55,18 @@ typedef struct
     float Roll;
 } IMU_Param_t;
 
-extern INS_t INS;
+typedef struct{
+			float Gyro_Yaw;
+			float Gyro_Pitch;
+			float Gyro_Roll;
+			float Angle_Yaw;
+			float Angle_Yawcontinuous;
+			float Angle_Pitch;    
+			float Angle_Roll;
+	    float q[4];
+	    int r;
+}IMU_t;
+extern IMU_t IMU;
 
 extern void INS_Init(void);
 extern void INS_Task(void);
