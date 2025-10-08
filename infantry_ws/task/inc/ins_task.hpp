@@ -4,12 +4,6 @@ extern "C" {
 #endif
 
 #include "stdint.h"
-#include "BMI088driver.hpp"
-#include "QuaternionEKF.hpp"
-
-#define X 0
-#define Y 1
-#define Z 2
 
 #define INS_TASK_PERIOD 1
 

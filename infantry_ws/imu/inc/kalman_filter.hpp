@@ -1,31 +1,6 @@
-/**
- ******************************************************************************
- * @file    kalman filter.h
- * @author  Wang Hongxi
- * @version V1.2.2
- * @date    2022/1/8
- * @brief
- ******************************************************************************
- * @attention
- *
- ******************************************************************************
- */
-#ifndef __KALMAN_FILTER_H
-#define __KALMAN_FILTER_H
-
-// cortex-m4 DSP lib
-/*
-#define __CC_ARM    // Keil
-#define ARM_MATH_CM4
-#define ARM_MATH_MATRIX_CHECK
-#define ARM_MATH_ROUNDING
-#define ARM_MATH_DSP    // define in arm_math.h
-*/
-
+#pragma once
 #include "stm32f407xx.h"
 #include "arm_math.h"
-//#include "dsp/matrix_functions.h"
-#include "math.h"
 #include "stdint.h"
 #include "stdlib.h"
 
@@ -117,5 +92,3 @@ void Kalman_Filter_SetK(KalmanFilter_t *kf);
 void Kalman_Filter_xhatUpdate(KalmanFilter_t *kf);
 void Kalman_Filter_P_Update(KalmanFilter_t *kf);
 float *Kalman_Filter_Update(KalmanFilter_t *kf);
-
-#endif //__KALMAN_FILTER_H

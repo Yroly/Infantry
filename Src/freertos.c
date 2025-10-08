@@ -19,6 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
+#include "ins_task.hpp"
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
@@ -64,9 +65,9 @@ const osThreadAttr_t Init_Task_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+void INS_Init();
+void INS_Task();
 void Init_Task();
-
 /* USER CODE END FunctionPrototypes */
 
 void StartINSTask(void *argument);
@@ -130,9 +131,11 @@ void StartINSTask(void *argument)
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN StartINSTask */
+  INS_Init();
   /* Infinite loop */
   for(;;)
   {
+    INS_Task();
     osDelay(1);
   }
   /* USER CODE END StartINSTask */

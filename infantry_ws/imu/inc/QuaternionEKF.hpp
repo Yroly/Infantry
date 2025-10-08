@@ -1,17 +1,4 @@
-/**
- ******************************************************************************
- * @file    QuaternionEKF.h
- * @author  Wang Hongxi
- * @version V1.2.0
- * @date    2022/3/8
- * @brief   attitude update with gyro bias estimate and chi-square test
- ******************************************************************************
- * @attention
- *
- ******************************************************************************
- */
-#ifndef _QUAT_EKF_H
-#define _QUAT_EKF_H
+#pragma once
 #include "kalman_filter.hpp"
 
 /* boolean type definitions */
@@ -71,5 +58,3 @@ extern float chiSquare;
 extern float ChiSquareTestThreshold;
 void IMU_QuaternionEKF_Init(float* init_quaternion,float process_noise1, float process_noise2, float measure_noise, float lambda, float lpf);
 void IMU_QuaternionEKF_Update(float gx, float gy, float gz, float ax, float ay, float az, float dt);
-
-#endif
