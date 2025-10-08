@@ -3,6 +3,8 @@
 #include "QuaternionEKF.hpp"
 #include "bsp_PWM.hpp"
 #include "controller.hpp"
+#include "main.h"
+#include "stm32f4xx_hal_gpio.h"
 
 IMU_t IMU;
 INS_t INS;
@@ -102,7 +104,6 @@ void INS_Task(void) {
     INS.Roll = QEKF_INS.Roll;
     INS.YawTotalAngle = QEKF_INS.YawTotalAngle;
     IMU_Rx();
-
     // Feed_Dog(&IMU_Dog);
   }
 
@@ -270,11 +271,11 @@ void IMU_Temperature_Ctrl(void) {
 }
 
 //------------------------------------functions below are not used in this
-//demo-------------------------------------------------
+// demo-------------------------------------------------
 //----------------------------------you can read them for learning or
-//programming-----------------------------------------------
+// programming-----------------------------------------------
 //----------------------------------they could also be helpful for further
-//design-----------------------------------------------
+// design-----------------------------------------------
 
 /**
  * @brief        Update quaternion

@@ -4,14 +4,14 @@
 extern "C" {
 #endif
 
-#include "init_task.hpp"
 #include "cmsis_os.h"
 #include "tim.h"
+#include "boozer_task.hpp"
+
+extern TaskHandle_t Boozer_Task_handle;
 
 void Init_Task();
-extern TaskHandle_t Boozer_Task_handle;
-extern void Init_Task();
-void Boozer_Task();
+void Boozer_Task(void const *pvParameters);
 
 #ifdef __cplusplus
 }

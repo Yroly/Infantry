@@ -1,9 +1,8 @@
 #pragma once
 
-#include "init_task.hpp"
-#include "cmsis_os.h"
-#include "bsp_buzzer.hpp"
 #include "boozer.hpp"
+#include "bsp_buzzer.hpp"
+#include "cmsis_os.h"
+#include "init_task.hpp"
 
-extern void Boozer_Task(void const * pvParameters);
-
+void Boozer_Task(void const *pvParameters);
