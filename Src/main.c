@@ -52,6 +52,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+TaskHandle_t Remote_Task_handle;
 TaskHandle_t Boozer_Task_handle;
 /* USER CODE END PV */
 

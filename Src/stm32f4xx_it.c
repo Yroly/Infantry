@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
-
+#include "remote_control.hpp"
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
 
@@ -288,11 +288,58 @@ void USART1_IRQHandler(void)
 void USART3_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_IRQn 0 */
+    if(huart3.Instance->SR & UART_FLAG_RXNE)
+    {
+        __HAL_UART_CLEAR_PEFLAG(&huart3);
+    }
+    else if(USART3->SR & UART_FLAG_IDLE)
+    {
+        static uint16_t this_time_rx_len = 0;
 
+        __HAL_UART_CLEAR_PEFLAG(&huart3);
+		// Feed_Dog(&Remote_Dog);
+        if ((hdma_usart3_rx.Instance->CR & DMA_SxCR_CT) == RESET)
+        {
+            __HAL_DMA_DISABLE(&hdma_usart3_rx);
+
+            this_time_rx_len = SBUS_RX_BUF_NUM - hdma_usart3_rx.Instance->NDTR;
+
+            hdma_usart3_rx.Instance->NDTR = SBUS_RX_BUF_NUM;
+
+            hdma_usart3_rx.Instance->CR |= DMA_SxCR_CT;
+
+            __HAL_DMA_ENABLE(&hdma_usart3_rx);
+
+            if(this_time_rx_len == RC_FRAME_LENGTH)
+            {
+				// Remote_Rx(sbus_rx_buf[0]);
+            }
+        }
+        else
+        {
+            __HAL_DMA_DISABLE(&hdma_usart3_rx);
+
+            this_time_rx_len = SBUS_RX_BUF_NUM - hdma_usart3_rx.Instance->NDTR;
+
+            hdma_usart3_rx.Instance->NDTR = SBUS_RX_BUF_NUM;
+
+            DMA1_Stream1->CR &= ~(DMA_SxCR_CT);
+
+            __HAL_DMA_ENABLE(&hdma_usart3_rx);
+
+            if(this_time_rx_len == RC_FRAME_LENGTH)
+            {
+
+				// Remote_Rx(sbus_rx_buf[1]);
+            }
+        }
+    }
+
+#if 0
   /* USER CODE END USART3_IRQn 0 */
   HAL_UART_IRQHandler(&huart3);
   /* USER CODE BEGIN USART3_IRQn 1 */
-
+#endif
   /* USER CODE END USART3_IRQn 1 */
 }
 

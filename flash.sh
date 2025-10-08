@@ -11,6 +11,7 @@ fi
 
 # 执行 OpenOCD 烧录
 openocd -f interface/cmsis-dap.cfg -f target/stm32f4x.cfg -c "program $FILE verify reset exit"
+# openocd -f interface/Jlink.cfg -f target/stm32f4x.cfg -c "program $FILE verify reset exit"
 
 # 检查返回状态
 if [ $? -ne 0 ]; then
