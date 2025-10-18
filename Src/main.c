@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "bsp_dwt.hpp"
 #include "cmsis_os.h"
 #include "can.h"
 #include "dma.h"
@@ -28,7 +29,7 @@
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
-
+#include "ins_task.hpp"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -53,19 +54,23 @@
 
 /* USER CODE BEGIN PV */
 TaskHandle_t Remote_Task_handle;
-TaskHandle_t Boozer_Task_handle;
+TaskHandle_t Buzzer_Task_handle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-
+void DWT_Init(uint32_t CPU_Freq_mHz);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+int fputc(int ch, FILE *f)
+{
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 200);
+    return ch;
+}
 /* USER CODE END 0 */
 
 /**
@@ -108,6 +113,7 @@ int main(void)
   MX_TIM4_Init();
   MX_RNG_Init();
   /* USER CODE BEGIN 2 */
+  DWT_Init(168);
 
   /* USER CODE END 2 */
 
@@ -127,6 +133,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
     
     /* USER CODE BEGIN 3 */
   }

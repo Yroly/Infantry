@@ -62,14 +62,14 @@ extern IMU_t IMU;
 
 extern void INS_Init(void);
 extern void INS_Task(void);
-extern void IMU_Temperature_Ctrl(void);
-
-void QuaternionUpdate(float *q, float gx, float gy, float gz, float dt);
-void QuaternionToEularAngle(float *q, float *Yaw, float *Pitch, float *Roll);
-void EularAngleToQuaternion(float Yaw, float Pitch, float Roll, float *q);
-void BodyFrameToEarthFrame(const float *vecBF, float *vecEF, float *q);
-void EarthFrameToBodyFrame(const float *vecEF, float *vecBF, float *q);
 
 #ifdef __cplusplus
 }
 #endif
+extern void IMU_Temperature_Ctrl(void);
+
+extern void QuaternionUpdate(float *q, float gx, float gy, float gz, float dt);
+extern void QuaternionToEularAngle(float *q, float *Yaw, float *Pitch, float *Roll);
+extern void EularAngleToQuaternion(float Yaw, float Pitch, float Roll, float *q);
+extern void BodyFrameToEarthFrame(const float *vecBF, float *vecEF, float *q);
+extern void EarthFrameToBodyFrame(const float *vecEF, float *vecBF, float *q);

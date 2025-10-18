@@ -1,4 +1,6 @@
-#include "boozer_task.hpp"
+#include "buzzer_task.hpp"
+#include "main.h"
+#include "stm32f4xx_hal_gpio.h"
 
 #if INCLUDE_uxTaskGetStackHighWaterMark
 uint32_t music_high_water;
@@ -22,7 +24,7 @@ uint32_t music_high_water;
 #define cali_buzzer_off() buzzer_off() // buzzer off，关闭蜂鸣器
 
 extern uint32_t play_id; // Index of the note to be played
-void Boozer_Task(void const *pvParameters) {
+void Buzzer_Task(void const *pvParameters) {
   static int16_t tim = 0;
   // 空闲一段时间
   vTaskDelay(MUSIC_TASK_INIT_TIME);
@@ -35,7 +37,7 @@ void Boozer_Task(void const *pvParameters) {
     MusicStartPlay();
     if (tim >= 900) {
       buzzer_off();
-      osThreadSuspend(Boozer_Task_handle);
+      osThreadSuspend(Buzzer_Task_handle);
     }
     vTaskDelayUntil(&currentTime, 1);
   }

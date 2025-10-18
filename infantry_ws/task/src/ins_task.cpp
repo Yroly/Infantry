@@ -3,8 +3,7 @@
 #include "QuaternionEKF.hpp"
 #include "bsp_PWM.hpp"
 #include "controller.hpp"
-#include "main.h"
-#include "stm32f4xx_hal_gpio.h"
+#include <stdio.h>
 
 IMU_t IMU;
 INS_t INS;
@@ -38,16 +37,15 @@ void INS_Init(void) {
   IMU_Param.Roll = 0;
   IMU_Param.flag = 1;
 
-  //	  RefTemp = BMI088.Temperature;
   float init_quaternion[4] = {0};
   InitQuaternion(init_quaternion);
   IMU_QuaternionEKF_Init(init_quaternion, 10, 0.001, 1000000, 1, 0);
 
-  // imu heat init
   PID_Init(&TempCtrl, 2000, 300, 0, 1000, 20, 0, 0, 0, 0, 0, 0, 0);
   HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_1);
 
   INS.AccelLPF = 0.0085;
+
 }
 
 void INS_Task(void) {
@@ -158,8 +156,10 @@ void IMU_Rx() {
   //			IMU.r--;
   //		 else if (diff < -100)
   IMU.r = QEKF_INS.YawRoundCount;
-  for (int i = 0; i < 4; i++)
-    IMU.q[i] = INS.q[i];
+  for (int i = 0; i < 4; i++){
+    IMU.q[i] = INS.q[i];   
+  }
+      printf("%f,%f,%f,%f\n", IMU.Angle_Pitch,IMU.Angle_Roll,IMU.Angle_Yaw,IMU.Gyro_Yaw);
 }
 /**
  * @brief          Transform 3dvector from BodyFrame to EarthFrame
@@ -218,7 +218,7 @@ static void IMU_Param_Correction(IMU_Param_t *param, float gyro[3],
 
   if (fabsf(param->Yaw - lastYawOffset) > 0.001f ||
       fabsf(param->Pitch - lastPitchOffset) > 0.001f ||
-      fabsf(param->Roll - lastRollOffset) > 0.001f || param->flag) {
+      fabsf(param->Roll - lastRollOffset) > -1.001f || param->flag) {
     cosYaw = arm_cos_f32(param->Yaw / 57.295779513f);
     cosPitch = arm_cos_f32(param->Pitch / 57.295779513f);
     cosRoll = arm_cos_f32(param->Roll / 57.295779513f);

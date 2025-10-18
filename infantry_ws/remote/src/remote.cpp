@@ -63,4 +63,4 @@ void RemoteControl::deadline_limit(float value, float deadline) {
   if (value >= -deadline && value <= deadline) {
     value = 0;
   }
-}
+} 

@@ -38,8 +38,6 @@ void PID_Init(PID_t *pid, float max_out, float intergral_limit, float deadband,
   pid->Kd = Kd;
   pid->ITerm = 0;
 
-  // ±äËÙ»ý·Ö²ÎÊý
-  // coefficient of changing integration rate
   pid->CoefA = A;
   pid->CoefB = B;
 
@@ -47,32 +45,19 @@ void PID_Init(PID_t *pid, float max_out, float intergral_limit, float deadband,
 
   pid->Derivative_LPF_RC = derivative_lpf_rc;
 
-  // ×îÐ¡¶þ³ËÌáÈ¡ÐÅºÅÎ¢·Ö³õÊ¼»¯
-  // differential signal is distilled by OLS
   pid->OLS_Order = ols_order;
   OLS_Init(&pid->OLS, ols_order);
 
-  // DWT¶¨Ê±Æ÷¼ÆÊý±äÁ¿ÇåÁã
-  // reset DWT Timer count counter
   pid->DWT_CNT = 0;
 
-  // ÉèÖÃPIDÓÅ»¯»·½Ú
   pid->Improve = improve;
 
-  // ÉèÖÃPIDÒì³£´¦Àí Ä¿Ç°½ö°üº¬µç»ú¶Â×ª±£»¤
   pid->ERRORHandler.ERRORCount = 0;
   pid->ERRORHandler.ERRORType = PID_ERROR_NONE;
 
   pid->Output = 0;
 }
 
-/**
- * @brief          PID¼ÆËã
- * @param[in]      PID½á¹¹Ìå
- * @param[in]      ²âÁ¿Öµ
- * @param[in]      ÆÚÍûÖµ
- * @retval         ·µ»Ø¿Õ
- */
 float PID_Calculate(PID_t *pid, float measure, float ref) {
   if (pid->Improve & ErrorHandle)
     f_PID_ErrorHandle(pid);
@@ -108,19 +93,18 @@ float PID_Calculate(PID_t *pid, float measure, float ref) {
     if (pid->User_Func2_f != NULL)
       pid->User_Func2_f(pid);
 
-    // ÌÝÐÎ»ý·Ö
     if (pid->Improve & Trapezoid_Intergral)
       f_Trapezoid_Intergral(pid);
-    // ±äËÙ»ý·Ö
+
     if (pid->Improve & ChangingIntegrationRate)
       f_Changing_Integration_Rate(pid);
-    // Î¢·ÖÏÈÐÐ
+
     if (pid->Improve & Derivative_On_Measurement)
       f_Derivative_On_Measurement(pid);
-    // Î¢·ÖÂË²¨Æ÷
+
     if (pid->Improve & DerivativeFilter)
       f_Derivative_Filter(pid);
-    // »ý·ÖÏÞ·ù
+
     if (pid->Improve & Integral_Limit)
       f_Integral_Limit(pid);
 
@@ -128,14 +112,11 @@ float PID_Calculate(PID_t *pid, float measure, float ref) {
 
     pid->Output = pid->Pout + pid->Iout + pid->Dout;
 
-    // Êä³öÂË²¨
     if (pid->Improve & OutputFilter)
       f_Output_Filter(pid);
 
-    // Êä³öÏÞ·ù
     f_Output_Limit(pid);
 
-    // ÎÞ¹Ø½ôÒª
     f_Proportion_Limit(pid);
   }
 
@@ -158,10 +139,9 @@ static void f_Trapezoid_Intergral(PID_t *pid) {
 
 static void f_Changing_Integration_Rate(PID_t *pid) {
   if (pid->Err * pid->Iout > 0) {
-    // »ý·Ö³ÊÀÛ»ýÇ÷ÊÆ
-    // Integral still increasing
+
     if (abs(pid->Err) <= pid->CoefB)
-      return; // Full integral
+      return;
     if (abs(pid->Err) <= (pid->CoefA + pid->CoefB))
       pid->ITerm *= (pid->CoefA - abs(pid->Err) + pid->CoefB) / pid->CoefA;
     else
@@ -175,8 +155,7 @@ static void f_Integral_Limit(PID_t *pid) {
   temp_Output = pid->Pout + pid->Iout + pid->Dout;
   if (abs(temp_Output) > pid->MaxOut) {
     if (pid->Err * pid->Iout > 0) {
-      // »ý·Ö³ÊÀÛ»ýÇ÷ÊÆ
-      // Integral still increasing
+
       pid->ITerm = 0;
     }
   }

@@ -4,16 +4,15 @@
 #include "init_task.hpp"
 #include "remote.hpp"
 
-
 class RemoteTask {
 public:
   RemoteTask() = default;
 
   void taskLoop();
-  static void taskWrapper(void* pvParameters){
-    RemoteTask* taskInstance = static_cast<RemoteTask*>(pvParameters);
-    if(taskInstance){
-        taskInstance->taskLoop();
+  static void taskWrapper(void *pvParameters) {
+    RemoteTask *taskInstance = static_cast<RemoteTask *>(pvParameters);
+    if (taskInstance) {
+      taskInstance->taskLoop();
     }
   }
   RemoteControl rcControl;

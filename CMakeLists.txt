@@ -61,6 +61,8 @@ file(GLOB_RECURSE PROJECT_SOURCES
 file(GLOB_RECURSE HEADER_FILES
     ${CMAKE_SOURCE_DIR}/infantry_ws/*.h
     ${CMAKE_SOURCE_DIR}/infantry_ws/*.hpp
+    ${CMAKE_SOURCE_DIR}/Middlewares/*.h
+    
 )
 set(INCLUDE_DIRS "")
 foreach(_header ${HEADER_FILES})

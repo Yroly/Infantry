@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-struct Remote{
+struct Remote {
   int16_t ch0 = 0;
   int16_t ch1 = 0;
   int16_t ch2 = 0;
@@ -94,5 +94,12 @@ public:
    */
   void deadline_limit(float value, float dealine);
 
+  static void Remote_Rx(void *pvParameters) {
+    RemoteControl *remoteInstance = static_cast<RemoteControl *>(pvParameters);
+    if (remoteInstance) {
+      unsigned char *RxMsg =
+          nullptr; // Replace nullptr with actual data source as needed
+      remoteInstance->receiveData(RxMsg);
+    }
+  }
 };
-
